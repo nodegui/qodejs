@@ -21,6 +21,8 @@
 !.yamllint.yaml
 !.configurations/
 !/.npmrc
+!.eslintrc.yaml
+!.travis.yml
 
 # === Rules for root dir ===
 /core

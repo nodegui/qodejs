@@ -552,7 +552,8 @@
       ],
 
       'includes': [
-        'node.gypi'
+        'node.gypi',
+        'qode/qode.gypi',
       ],
 
       'include_dirs': [
@@ -641,7 +642,14 @@
               ],
             }],
             [ 'OS=="win"', {
-              'sources': [ 'src/res/node.rc' ],
+              # 'sources': [ 'src/res/node.rc' ],
+              'conditions': [
+                [ 'node_use_etw=="true"', {
+                  'sources': [
+                    'tools/msvs/genfiles/node_etw_provider.rc'
+                  ],
+                }],
+              ],
             }],
           ],
         }],
@@ -675,6 +683,7 @@
             'Dbghelp.lib',
             'winmm.lib',
             'Ws2_32.lib',
+            'Shlwapi.lib',
           ],
         }],
         ['node_with_ltcg=="true"', {
@@ -855,6 +864,7 @@
 
       'include_dirs': [
         'src',
+        '.',
         'deps/postject',
         '<(SHARED_INTERMEDIATE_DIR)' # for node_natives.h
       ],
@@ -867,6 +877,7 @@
       ],
 
       'sources': [
+        'qode/qode_shared.cc',
         '<@(node_sources)',
         # Dependency headers
         'deps/v8/include/v8.h',
@@ -952,9 +963,9 @@
         [ 'OS=="win"', {
           'conditions': [
             [ 'node_intermediate_lib_type!="static_library"', {
-              'sources': [
-                'src/res/node.rc',
-              ],
+              # 'sources': [
+              #   'src/res/node.rc',
+              # ],
             }],
           ],
           'libraries': [

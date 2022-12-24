@@ -20,6 +20,7 @@
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include "node.h"
+#include "qode/qode.h"
 #include <cstdio>
 
 #ifdef _WIN32
@@ -88,12 +89,30 @@ int wmain(int argc, wchar_t* wargv[]) {
   }
   argv[argc] = nullptr;
   // Now that conversion is done, we can finally start.
-  return node::Start(argc, argv);
+  return qode::Start(argc, argv);
 }
 #else
 // UNIX
 
 int main(int argc, char* argv[]) {
-  return node::Start(argc, argv);
+#if defined(__POSIX__) && defined(NODE_SHARED_MODE)
+  // In node::PlatformInit(), we squash all signal handlers for non-shared lib
+  // build. In order to run test cases against shared lib build, we also need
+  // to do the same thing for shared lib build here, but only for SIGPIPE for
+  // now. If node::PlatformInit() is moved to here, then this section could be
+  // removed.
+  {
+    struct sigaction act;
+    memset(&act, 0, sizeof(act));
+    act.sa_handler = SIG_IGN;
+    sigaction(SIGPIPE, &act, nullptr);
+  }
+#endif
+
+  // Disable stdio buffering, it interacts poorly with printf()
+  // calls elsewhere in the program (e.g., any logging from V8.)
+  setvbuf(stdout, nullptr, _IONBF, 0);
+  setvbuf(stderr, nullptr, _IONBF, 0);
+  return qode::Start(argc, argv);
 }
 #endif

@@ -3,6 +3,7 @@
 #include "node.h"
 #include "node_internals.h"
 #include "node_snapshot_builder.h"
+#include "qode/qode_shared.h"
 
 using v8::Context;
 using v8::Function;
@@ -39,7 +40,10 @@ Maybe<ExitCode> SpinEventLoopInternal(Environment* env) {
         node::performance::NODE_PERFORMANCE_MILESTONE_LOOP_START);
     do {
       if (env->is_stopping()) break;
-      uv_run(env->event_loop(), UV_RUN_DEFAULT);
+       if (env->event_loop() == uv_default_loop() && qode::qode_run_gui_loop)
+        qode::qode_run_gui_loop();
+       else
+        uv_run(env->event_loop(), UV_RUN_DEFAULT);
       if (env->is_stopping()) break;
 
       platform->DrainTasks(isolate);

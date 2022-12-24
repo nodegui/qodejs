@@ -1,0 +1,51 @@
+on:
+  release:
+    types: [created]
+jobs:
+  build:
+    runs-on: windows-2019
+    strategy:
+      matrix: 
+        arch: ['x64']
+    steps:
+      - uses: actions/setup-node@master
+        with:
+          node-version: "16.x"
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: "Setup NASM for windows"
+        uses: ilammy/setup-nasm@v1
+
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Build Qode binary
+        run: node ./qode/build.js
+        env:
+          TARGET_ARCH: ${{ matrix.arch }} 
+      - name: Compress files
+        uses: a7ul/tar-action@v1.0.2
+        id: compress
+        with:
+          command: c
+          cwd: ./out/Release
+          files: |
+            ./qode.exe
+            ./node.lib
+            ./node.exp
+          outPath: ${{github.event.release.tag_name}}-win32-${{ matrix.arch }}.tar.gz
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: ${{github.event.release.tag_name}}-win32-${{ matrix.arch }}.tar.gz
+          path: ${{github.event.release.tag_name}}-win32-${{ matrix.arch }}.tar.gz
+
+      - name: Upload release binaries
+        uses: alexellis/upload-assets@0.2.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          asset_paths: '["${{github.event.release.tag_name}}-win32-${{ matrix.arch }}.tar.gz"]'

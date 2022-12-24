@@ -37,7 +37,7 @@
       'msvs_settings': {
         'VCManifestTool': {
           'EmbedManifest': 'true',
-          'AdditionalManifestFiles': 'src/res/node.exe.extra.manifest'
+          # 'AdditionalManifestFiles': 'src/res/node.exe.extra.manifest'
         }
       },
     }],

@@ -936,9 +936,11 @@ int uv__io_start(uv_loop_t* loop, uv__io_t* w, unsigned int events) {
     return 0;
 #endif
 
-  if (uv__queue_empty(&w->watcher_queue))
+  if (uv__queue_empty(&w->watcher_queue)) {
     uv__queue_insert_tail(&loop->watcher_queue, &w->watcher_queue);
-
+    if (loop->qode_on_watcher_queue_updated)
+      loop->qode_on_watcher_queue_updated(loop);
+  }
   if (loop->watchers[w->fd] == NULL) {
     loop->watchers[w->fd] = w;
     loop->nfds++;
@@ -991,8 +993,11 @@ void uv__io_stop(uv_loop_t* loop, uv__io_t* w, unsigned int events) {
       loop->nfds--;
     }
   }
-  else if (uv__queue_empty(&w->watcher_queue))
+  else if (uv__queue_empty(&w->watcher_queue)) {
     uv__queue_insert_tail(&loop->watcher_queue, &w->watcher_queue);
+    if (loop->qode_on_watcher_queue_updated)
+      loop->qode_on_watcher_queue_updated(loop);
+  }
 }
 
 
@@ -1009,6 +1014,8 @@ void uv__io_close(uv_loop_t* loop, uv__io_t* w) {
 void uv__io_feed(uv_loop_t* loop, uv__io_t* w) {
   if (uv__queue_empty(&w->pending_queue))
     uv__queue_insert_tail(&loop->pending_queue, &w->pending_queue);
+  if (loop->qode_on_watcher_queue_updated)
+    loop->qode_on_watcher_queue_updated(loop);
 }
 
 

@@ -1,4 +1,212 @@
 # Node.js
+=======
+# Qode
+
+Qode is a lightly modified fork of Node.js that allows Node's event loop to be merged with Qt's or any other Gui event loop.
+It is designed to be used together with `@nodegui/nodegui`. Qode achieves this by allowing message loop injection via a NodeJS addon.
+
+<img alt="logo" src="https://github.com/nodegui/nodegui/raw/master/extras/logo/nodegui.png" height="200" />
+
+## Changes in v16.x
+
+> From version 16.x - qode will have the same version number as that of underlying node.
+>
+> This is a complete restructure of qode's source code. 
+>
+> It makes it easier to support all the architectures supported by nodejs
+>
+> Qode source code is now much more closer to node's source code. Making it easier to upgrade node.js. 
+>
+> No breaking changes.
+
+## Changes in v2.0
+
+> In version 2.0, Qode no longer depends on Qt as a dependency.
+>
+> This makes it easier to upgrade Qt and also allows devs to use their own version of Qt. Technically this means its possible to integrate with another Gui system (not Qt) aswell.
+>
+> Another benefit is that it helps in avoiding issues with 3rd party plugin development because of qt version mismatch.
+>
+> Now, Qode essentially becomes nodejs + `<some code changes to allow message loop injection via an addon>`
+
+### Note:
+
+Qode is published as a NPM module as `@nodegui/qode`.
+For more details on the npm module visit: `qode/npm/README.md`
+The changes to node.js are visible in the commit name `qode patch` in this branch
+
+## Changes to Node.js
+
+- The event loop remains the same as that of NodeJs until a new Gui message loop is injected via the qode api. See below for details on the api.
+- When a Gui message loop is injected, qode will use it as the primary event loop and will process NodeJs requests on the main thread as an when it arrives by listening to the libuv's events.
+- Note: Make sure to use a binary compatible version of nodejs when using alongside qode. For example if qode has node version of 16.x then use Node version 16.x when developing apps with qode.
+
+Currently only 64bit OS's are supported.
+
+## Steps for Windows
+
+====================
+
+Use Powershell in windows (possibly with git bash or similar installed)
+
+1. Do a git clone for this repo
+
+2. Install Visual Studio Community 2019. Download the Visual studio Installer and install Visual Studio Community 2019. Make sure to choose "Desktop development with C++ " workload and install it.
+
+3. Building Qode. Run `node ./qode/build.js`
+
+## Steps for Linux
+
+==================
+
+1. Do a git clone for this repo
+
+2. Install GTK headers and patchelf:
+
+```
+sudo apt install libgtk-3-dev patchelf
+```
+
+3. Building Qode. Run `node ./qode/build.js`
+
+## Steps for MacOS
+
+==================
+
+1. Do a git clone for this repo
+
+2. Building Qode. Run `node ./qode/build.js`
+
+> If you want to build for Apple Silicon Macs
+> Make sure you have python 3.8.10 installed
+>
+> ```
+> node ./qode/build.js
+> ```
+
+### Common build errors:
+
+1. if you get an error similar to:
+
+   ```
+    fatal error: gtk/gtk.h: No such file or directory
+    #include <gtk/gtk.h>
+   ```
+
+   Make sure you have installed gtk headers as mentioned above.
+
+2. If you get an error similar to:
+   ./qode: error while loading shared libraries: cannot open shared object file: No such file or directory.
+
+   Check the shared libraries used by qode by running `ldd ./qode`. Then you can provide the path where qode could find the libraries like this:
+
+   `LD_LIBRARY_PATH=<path_to_lib>:$LD_LIBRARY_PATH ./qode`
+
+And make sure you have installed gtk3 headers also for time being.
+
+4. Yoga crashes when using with Qode. Make sure that node version you are using to compile nodegui is binary compatible with node version of Qode. or make sure you compile addons with Qode instead of Node.
+
+## Usage
+
+The prebuilt binaries can be found in the Releases page, modules installed by `npm` can be used directly in qode.
+Qode can also be installed via npm.
+
+Note that it is strong recommended to install the official Node.js with the
+same version of qode, otherwise native modules installed by `npm` may not work
+correctly in qode.
+
+## Build
+
+```bash
+TARGET_ARCH=[x64|ia32] HOST_ARCH=[x64|ia32] node ./qode/build.js
+```
+
+or
+
+```
+`cmd /C "set TARGET_ARCH=[x64|ia32] && set HOST_ARCH=[x64|ia32] && node ./qode/build.js"`
+```
+
+_PS: I havent tested ia32 builds_
+
+The output of the build will be present at node/out/Release/qode
+
+## Configurations (Available from qode v1.0.3)
+
+Additional configurations can be done via a qode.json file in the same directory as that of the qode binary.
+
+`qode.json`
+
+```javascript
+{
+  distPath: "./dist/index.js"; // This will try to load the index.js inside dist folder when qode.exe is run.
+}
+```
+
+## Message Loop injection api
+
+The NodeGui core addon uses the following api exposed by qode binary to inject Qt's event loop into nodejs
+
+https://github.com/nodegui/node/blob/43e31129fc27f738b171dca3d744a0e4245dcc6d/src/qode_shared.h#L12
+
+```c++
+#pragma once
+// From Qode headers
+namespace qode {
+    extern int qode_argc;
+    extern char **qode_argv;
+    typedef int (*QodeCustomRunLoopFunc)();
+    extern void InjectCustomRunLoop(QodeCustomRunLoopFunc customRunLoop);
+}  // namespace qode
+```
+
+## Building for M1 Mac
+
+In order to build for M1 mac
+
+Make sure you have python 3.8.10 installed
+
+and then do:
+
+```
+node ./qode/build.js
+```
+
+## License
+
+The MIT license.
+
+## Thanks
+
+The idea of Qode is derived from [yode][yode] and [electron](https://github.com/electron/electron/). Infact Qode is a heavily modified fork of [yode][yode]. I thank [Cheng Zhao](https://github.com/zcbenz) for yode and many of the ideas behind integration of GUI based libraries with NodeJS.
+
+[yode]: https://github.com/yue/yode
+
+## Qode - Node version table
+
+| Qode   |  Node   |
+| ------ | :-----: |
+| v2.1.0 | v14.2.0 |
+| v2.1.1 | v14.17.0|
+| v16.4.0 | v16.4.0 |
+
+
+------------------
+
+# Node.js README
+
+-------------------
+
+<!--lint disable no-literal-urls-->
+<p align="center">
+  <a href="https://nodejs.org/">
+    <img
+      alt="Node.js"
+      src="https://nodejs.org/static/images/logo-light.svg"
+      width="400"
+    />
+  </a>
+</p>
 
 Node.js is an open-source, cross-platform JavaScript runtime environment.
 
@@ -17,6 +225,7 @@ that discourage, exhaust, or otherwise negatively affect other participants.
 
 ## Table of contents
 
+<<<<<<< HEAD
 * [Support](#support)
 * [Release types](#release-types)
   * [Download](#download)
@@ -33,6 +242,45 @@ that discourage, exhaust, or otherwise negatively affect other participants.
   * [Triagers](#triagers)
   * [Release keys](#release-keys)
 * [License](#license)
+=======
+- [Qode](#qode)
+  - [Changes in v3.0](#changes-in-v30)
+  - [Changes in v2.0](#changes-in-v20)
+    - [Note:](#note)
+  - [Changes to Node.js](#changes-to-nodejs)
+  - [Steps for Windows](#steps-for-windows)
+  - [Steps for Linux](#steps-for-linux)
+  - [Steps for MacOS](#steps-for-macos)
+    - [Common build errors:](#common-build-errors)
+  - [Usage](#usage)
+  - [Build](#build)
+  - [Configurations (Available from qode v1.0.3)](#configurations-available-from-qode-v103)
+  - [Message Loop injection api](#message-loop-injection-api)
+  - [Building for M1 Mac](#building-for-m1-mac)
+  - [License](#license)
+  - [Thanks](#thanks)
+  - [Qode - Node version table](#qode---node-version-table)
+- [Node.js README](#nodejs-readme)
+- [Table of contents](#table-of-contents)
+  - [Support](#support)
+  - [Release types](#release-types)
+    - [Download](#download)
+      - [Current and LTS releases](#current-and-lts-releases)
+      - [Nightly releases](#nightly-releases)
+      - [API documentation](#api-documentation)
+    - [Verifying binaries](#verifying-binaries)
+  - [Building Node.js](#building-nodejs)
+  - [Security](#security)
+  - [Contributing to Node.js](#contributing-to-nodejs)
+  - [Current project team members](#current-project-team-members)
+    - [TSC (Technical Steering Committee)](#tsc-technical-steering-committee)
+    - [TSC emeriti](#tsc-emeriti)
+    - [Collaborators](#collaborators)
+    - [Collaborator emeriti](#collaborator-emeriti)
+    - [Triagers](#triagers)
+    - [Release keys](#release-keys)
+  - [License](#license-1)
+>>>>>>> 89ccb29fe3c (qode patch)
 
 ## Support
 

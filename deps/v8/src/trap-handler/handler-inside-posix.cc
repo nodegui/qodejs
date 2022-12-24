@@ -151,7 +151,9 @@ bool TryHandleSignal(int signum, siginfo_t* info, void* context) {
     UnmaskOobSignalScope unmask_oob_signal;
 
     ucontext_t* uc = reinterpret_cast<ucontext_t*>(context);
-#if V8_HOST_ARCH_X64
+#if V8_OS_MACOSX && V8_TARGET_ARCH_ARM64 && V8_HOST_ARCH_X64
+    auto* context_ip = CONTEXT_REG(rip, RIP);
+#elif V8_HOST_ARCH_X64
     auto* context_ip = CONTEXT_REG(rip, RIP);
 #elif V8_HOST_ARCH_ARM64
     auto* context_ip = CONTEXT_PC();
