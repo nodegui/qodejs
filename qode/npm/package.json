@@ -1,6 +1,6 @@
 {
   "name": "@nodegui/qode",
-  "version": "24.12.0",
+  "version": "24.12.0-rc1",
   "description": "Qode is a lightly modified fork of Node.js that allows injecting a third party event loop alongside Node's event loop. It is designed to be used together with `@nodegui/nodegui`",
   "main": "index.js",
   "files": [
