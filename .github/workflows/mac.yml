@@ -3,14 +3,14 @@ on:
     types: [created]
 jobs:
   build:
-    runs-on: macos-12
+    runs-on: macos-14
     strategy:
       matrix:
         arch: ['x64', 'arm64']
     steps:
       - uses: actions/setup-node@master
         with:
-          node-version: '16.x'
+          node-version: '24.x'
       - name: Set up Python 3.8
         uses: actions/setup-python@v1
         with:

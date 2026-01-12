@@ -3,14 +3,14 @@ on:
     types: [created]
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
     strategy:
-      matrix: 
+      matrix:
         arch: ['x64']
     steps:
       - uses: actions/setup-node@master
         with:
-          node-version: "16.x"
+          node-version: "24.x"
       - name: Set up Python 3.8
         uses: actions/setup-python@v1
         with:
@@ -25,7 +25,7 @@ jobs:
       - name: Build Qode binary
         run: node ./qode/build.js
         env:
-          TARGET_ARCH: ${{ matrix.arch }} 
+          TARGET_ARCH: ${{ matrix.arch }}
 
       - name: Compress files
         uses: a7ul/tar-action@v1.0.2
