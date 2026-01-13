@@ -12,13 +12,13 @@ jobs:
         with:
           node-version: "24.x"
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.8
+          python-version: 3.13
       - name: "Setup NASM for windows"
         uses: ilammy/setup-nasm@v1
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
         with:
           ref: ${{ github.ref }}
 
@@ -44,7 +44,7 @@ jobs:
           path: ${{github.event.release.tag_name}}-win32-${{ matrix.arch }}.tar.gz
 
       - name: Upload release binaries
-        uses: alexellis/upload-assets@0.2.2
+        uses: alexellis/upload-assets@0.4.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
