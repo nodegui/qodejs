@@ -38,7 +38,7 @@ jobs:
             ./node.exp
           outPath: ${{github.event.release.tag_name}}-win32-${{ matrix.arch }}.tar.gz
 
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{github.event.release.tag_name}}-win32-${{ matrix.arch }}.tar.gz
           path: ${{github.event.release.tag_name}}-win32-${{ matrix.arch }}.tar.gz
