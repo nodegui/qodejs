@@ -6,7 +6,7 @@ jobs:
     runs-on: macos-14
     strategy:
       matrix:
-        arch: ['x64', 'arm64']
+        arch: ['arm64']
     steps:
       - uses: actions/setup-node@master
         with:
