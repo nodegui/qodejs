@@ -641,16 +641,6 @@
                 '-Wl,--no-whole-archive',
               ],
             }],
-            [ 'OS=="win"', {
-              # 'sources': [ 'src/res/node.rc' ],
-              'conditions': [
-                [ 'node_use_etw=="true"', {
-                  'sources': [
-                    'tools/msvs/genfiles/node_etw_provider.rc'
-                  ],
-                }],
-              ],
-            }],
           ],
         }],
         [ 'node_shared=="true"', {
