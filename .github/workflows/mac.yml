@@ -19,8 +19,6 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      - run: sudo xcode-select -switch /Applications/Xcode_13.1.app
-
       - name: Build Qode binary
         run: node ./qode/build.js
         env:
