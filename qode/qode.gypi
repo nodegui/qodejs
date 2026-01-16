@@ -17,7 +17,7 @@
         '../deps',
     ],
     "cflags": [
-        "-std=c++14"
+        "-std=c++20"
     ],
     'conditions': [
         ['OS=="mac"', {
@@ -28,7 +28,7 @@
         ['OS=="win"', {
             'sources': [
                 'qode.rc',
-                'integration/node_integration_win.cc',                    
+                'integration/node_integration_win.cc',
             ],
             'msvs_settings': {
                 'VCManifestTool': {
