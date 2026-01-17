@@ -47,12 +47,12 @@ if (isCrossCompiling) {
 function compileLinux() {
   if (target_arch !== host_arch) {
     execSync(
-      `python3 configure --with-intl=small-icu --cross-compiling --dest-cpu=${target_arch}`,
+      `python3 configure --cross-compiling --dest-cpu=${target_arch}`,
       { cwd: path.resolve(__dirname, '..') }
     );
   } else {
     execSync(
-      `python3 configure --with-intl=small-icu  --dest-cpu=${target_arch}`,
+      `python3 configure --dest-cpu=${target_arch}`,
       { cwd: path.resolve(__dirname, '..') }
     );
   }
@@ -81,12 +81,12 @@ function compileMac() {
       });
     }
     execSync(
-      `python3 configure --with-intl=small-icu --cross-compiling --dest-cpu=${target_arch}`,
+      `python3 configure --cross-compiling --dest-cpu=${target_arch}`,
       { cwd: path.resolve(__dirname, '..') }
     );
   } else {
     execSync(
-      `python3 configure --with-intl=small-icu  --dest-cpu=${target_arch}`,
+      `python3 configure --dest-cpu=${target_arch}`,
       { cwd: path.resolve(__dirname, '..') }
     );
   }
