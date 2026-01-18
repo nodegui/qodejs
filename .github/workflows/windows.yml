@@ -1,9 +1,13 @@
 on:
   release:
     types: [created]
+
+env:
+  PYTHON_VERSION: '3.12'
+
 jobs:
   build:
-    runs-on: windows-2022
+    runs-on: windows-2025
     strategy:
       matrix:
         arch: ['x64']
@@ -11,10 +15,12 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: "24.x"
-      - name: Set up Python
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
         uses: actions/setup-python@v5
         with:
-          python-version: 3.13
+          python-version: ${{ env.PYTHON_VERSION }}
+
       - name: "Setup NASM for windows"
         uses: ilammy/setup-nasm@v1
 
@@ -22,10 +28,14 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
+      - name: Environment Information
+        run: npx envinfo
+
       - name: Build Qode binary
         run: node ./qode/build.js
         env:
           TARGET_ARCH: ${{ matrix.arch }}
+
       - name: Compress files
         uses: a7ul/tar-action@v1.0.2
         id: compress
