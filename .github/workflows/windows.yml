@@ -21,8 +21,8 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - name: "Setup NASM for windows"
-        uses: ilammy/setup-nasm@v1
+      - name: Install deps
+        run: choco install nasm
 
       - uses: actions/checkout@v5
         with:
