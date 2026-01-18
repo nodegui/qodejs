@@ -99,7 +99,7 @@ function compileMac() {
 }
 
 function compileWin() {
-  execSync(`.\\vcbuild clang_cl small-icu`, {
+  execSync(`.\\vcbuild clang-cl small-icu`, {
     cwd: path.resolve(__dirname, '..'),
   });
 
