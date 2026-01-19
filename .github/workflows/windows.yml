@@ -31,6 +31,9 @@ jobs:
       - name: Environment Information
         run: npx envinfo
 
+      - name: Generate project files
+        run: vcbuild.bat projgen
+
       - name: Build Qode binary
         run: node ./qode/build.js
         env:
