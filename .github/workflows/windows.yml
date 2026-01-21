@@ -40,7 +40,7 @@ jobs:
           TARGET_ARCH: ${{ matrix.arch }}
 
       - name: List all output files
-        run: ls -alp ./out/Release
+        run: dir ./out/Release
 
       - name: Compress files
         uses: a7ul/tar-action@v1.0.2
