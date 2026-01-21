@@ -39,6 +39,9 @@ jobs:
         env:
           TARGET_ARCH: ${{ matrix.arch }}
 
+      - name: List all output files
+        run: ls -alp ./out/Release
+
       - name: Compress files
         uses: a7ul/tar-action@v1.0.2
         id: compress
@@ -48,7 +51,6 @@ jobs:
           files: |
             ./qode.exe
             ./node.lib
-            ./node.exp
           outPath: ${{github.event.release.tag_name}}-win32-${{ matrix.arch }}.tar.gz
 
       - uses: actions/upload-artifact@v4
