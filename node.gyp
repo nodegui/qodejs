@@ -862,7 +862,8 @@
       'include_dirs': [
         'src',
         'deps/v8/include',
-        'deps/postject'
+        'deps/postject',
+        'deps/uv/include',
       ],
 
       'dependencies': [
