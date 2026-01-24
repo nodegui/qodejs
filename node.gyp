@@ -846,63 +846,6 @@
       ],
     }, # node_core_target_name
     {
-      'target_name': 'qode',
-      'type': 'executable',
-
-      'defines': [
-        'NODE_ARCH="<(target_arch)"',
-        'NODE_PLATFORM="<(OS)"',
-        'NODE_WANT_INTERNALS=1',
-      ],
-
-      'includes': [
-        'qode/qode.gypi',
-      ],
-
-      'include_dirs': [
-        'src',
-        'deps/v8/include',
-        'deps/postject',
-        'deps/uv/include',
-      ],
-
-      'dependencies': [
-        '<(node_lib_target_name)',
-        'deps/histogram/histogram.gyp:histogram',
-      ],
-
-      'msvs_settings': {
-        'VCLinkerTool': {
-          'GenerateMapFile': 'true',
-          'MapExports': 'true',
-          'RandomizedBaseAddress': 2,
-          'DataExecutionPrevention': 2,
-          'AllowIsolation': 'true',
-          'StackReserveSize': 0x800000,
-          'SubSystem': '1',  # Console application
-        },
-      },
-
-      'conditions': [
-        ['OS=="win"', {
-          'libraries': [
-            'Dbghelp.lib',
-            'winmm.lib',
-            'Ws2_32.lib',
-            'Shlwapi.lib',
-          ],
-        }],
-        ['OS=="win" and node_shared=="true"', {
-          'dependencies': ['generate_node_def'],
-          'msvs_settings': {
-            'VCLinkerTool': {
-              'ModuleDefinitionFile': '<(PRODUCT_DIR)/<(node_core_target_name).def',
-            },
-          },
-        }],
-      ],
-    }, # qode target
-    {
       'target_name': '<(node_lib_target_name)',
       'type': '<(node_intermediate_lib_type)',
       'includes': [

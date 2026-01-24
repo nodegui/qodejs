@@ -15,9 +15,7 @@
         '.',
         '..',
         '../deps',
-    ],
-    "cflags": [
-        "-std=c++20"
+        '../src',
     ],
     'conditions': [
         ['OS=="mac"', {
