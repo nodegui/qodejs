@@ -11,11 +11,11 @@ It is designed to be used together with `@nodegui/nodegui`. Qode achieves this b
 
 > From version 16.x - qode will have the same version number as that of underlying node.
 >
-> This is a complete restructure of qode's source code. 
+> This is a complete restructure of qode's source code.
 >
 > It makes it easier to support all the architectures supported by nodejs
 >
-> Qode source code is now much more closer to node's source code. Making it easier to upgrade node.js. 
+> Qode source code is now much more closer to node's source code. Making it easier to upgrade node.js.
 >
 > No breaking changes.
 
@@ -225,26 +225,9 @@ that discourage, exhaust, or otherwise negatively affect other participants.
 
 ## Table of contents
 
-<<<<<<< HEAD
-* [Support](#support)
-* [Release types](#release-types)
-  * [Download](#download)
-    * [Current and LTS releases](#current-and-lts-releases)
-    * [Nightly releases](#nightly-releases)
-    * [API documentation](#api-documentation)
-  * [Verifying binaries](#verifying-binaries)
-* [Building Node.js](#building-nodejs)
-* [Security](#security)
-* [Contributing to Node.js](#contributing-to-nodejs)
-* [Current project team members](#current-project-team-members)
-  * [TSC (Technical Steering Committee)](#tsc-technical-steering-committee)
-  * [Collaborators](#collaborators)
-  * [Triagers](#triagers)
-  * [Release keys](#release-keys)
-* [License](#license)
-=======
+- [Node.js](#nodejs)
 - [Qode](#qode)
-  - [Changes in v3.0](#changes-in-v30)
+  - [Changes in v16.x](#changes-in-v16x)
   - [Changes in v2.0](#changes-in-v20)
     - [Note:](#note)
   - [Changes to Node.js](#changes-to-nodejs)
@@ -261,7 +244,7 @@ that discourage, exhaust, or otherwise negatively affect other participants.
   - [Thanks](#thanks)
   - [Qode - Node version table](#qode---node-version-table)
 - [Node.js README](#nodejs-readme)
-- [Table of contents](#table-of-contents)
+  - [Table of contents](#table-of-contents)
   - [Support](#support)
   - [Release types](#release-types)
     - [Download](#download)
@@ -274,13 +257,15 @@ that discourage, exhaust, or otherwise negatively affect other participants.
   - [Contributing to Node.js](#contributing-to-nodejs)
   - [Current project team members](#current-project-team-members)
     - [TSC (Technical Steering Committee)](#tsc-technical-steering-committee)
-    - [TSC emeriti](#tsc-emeriti)
+      - [TSC voting members](#tsc-voting-members)
+      - [TSC regular members](#tsc-regular-members)
+      - [TSC emeriti members](#tsc-emeriti-members)
     - [Collaborators](#collaborators)
     - [Collaborator emeriti](#collaborator-emeriti)
     - [Triagers](#triagers)
     - [Release keys](#release-keys)
+    - [Security release stewards](#security-release-stewards)
   - [License](#license-1)
->>>>>>> 89ccb29fe3c (qode patch)
 
 ## Support
 
