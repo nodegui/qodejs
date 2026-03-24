@@ -1,7 +1,6 @@
 on:
   release:
     types: [created]
-  workflow_dispatch:
 
 env:
   PYTHON_VERSION: '3.12'
@@ -15,9 +14,9 @@ jobs:
           - os: macos-15-intel
             platform: darwin
             arch: x64
-        #   - os: macos-15
-        #     platform: darwin
-        #     arch: arm64
+          - os: macos-15
+            platform: darwin
+            arch: arm64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/setup-node@master
